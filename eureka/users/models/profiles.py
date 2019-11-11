@@ -13,7 +13,7 @@ class Profile(EurekaModel):
     and statistics.
     """
 
-    users = models.OneToOneField('users.User',on_delete=models.CASCADE)
+    user = models.OneToOneField('users.User',on_delete=models.CASCADE)
 
     picture = models.ImageField(
         'profile_picture',
@@ -27,6 +27,9 @@ class Profile(EurekaModel):
     # Stats
     jobs_applied = models.PositiveIntegerField()
     jobs_created = models.PositiveIntegerField()
+
+    # Status
+    active_search = models.BooleanField(default = True)
 
     def __str__(self):
             """Return user's str representation."""
