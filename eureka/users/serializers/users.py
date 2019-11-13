@@ -1,10 +1,12 @@
 """Users Serializers."""
 
 # Django
+from django.conf import settings
 from django.contrib.auth import authenticate, password_validation
 from django.core.mail import EmailMultiAlternatives
 from django.core.validators import RegexValidator
 from django.template.loader import render_to_string
+from django.utils import timezone
 
 # Django REST Framework
 from rest_framework import serializers
@@ -13,6 +15,10 @@ from rest_framework.validators import UniqueValidator
 
 # Models
 from eureka.users.models import User,Profile
+
+# Utilities
+import jwt
+from datetime import timedelta
 
 class UserModelSerializer(serializers.ModelSerializer):
     """User model serializer."""
@@ -75,7 +81,7 @@ class UserSignUpSerializer(serializers.Serializer):
         passwd = data['password']
         passwd_conf = data['password_confirmation']
         if passwd != passwd_conf:
-            raise serializes.ValidationError('Las contraseñas no coinciden.')
+            raise serializers.ValidationError('Las contraseñas no coinciden.')
         password_validation.validate_password(passwd)
         return data
 
@@ -105,7 +111,14 @@ class UserSignUpSerializer(serializers.Serializer):
 
     def gen_verification_token(self,user):
         """Create JWT token that the user can use to verify its account."""
-        return("abc")
+        exp_date = timezone.now() + timedelta(days = 1)
+        payload = {
+            'user': user.email,
+            'exp': int(exp_date.timestamp()),
+            'type': 'email_confirmation'
+        }
+        token = jwt.encode(payload, settings.SECRET_KEY, algorithm = 'HS256')
+        return token.decode()
 
 
 class UserLoginSerializer(serializers.Serializer):
@@ -131,3 +144,30 @@ class UserLoginSerializer(serializers.Serializer):
         """Generate or retrieve new token."""
         token, created = Token.objects.get_or_create(user=self.context['user'])
         return self.context['user'],token.key
+
+
+class AccountVerificationSerializer(serializers.Serializer):
+    """Account Verification serializer."""
+
+    token = serializers.CharField()
+
+    def validate_token(self,data):
+        """Verify token is valid."""
+        try:
+            payload = jwt.decode(data,settings.SECRET_KEY,algorithms=['HS256'])
+        except jwt.ExpiredSignatureError:
+            raise serializers.ValidationError('Verification link has expired.')
+        except jwt.PyJWTError:
+            raise serializers.ValidationError('Invalid token')
+        if payload['type'] != 'email_confirmation':
+            raise serializer.ValidationError('Invalid token')
+
+        self.context['payload']=payload
+        return data
+
+    def save(self):
+        """Update user's verified status"""
+        payload = self.context['payload']
+        user = User.objects.get(email=payload['user'])
+        user.is_verified=True
+        user.save()
