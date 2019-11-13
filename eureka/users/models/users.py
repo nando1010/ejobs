@@ -28,6 +28,7 @@ class MyUserManager(BaseUserManager):
             last_name=last_name
         )
         user.set_password(password)
+        user.is_verified=False
         user.save()
         return user
 
@@ -49,6 +50,7 @@ class MyUserManager(BaseUserManager):
         user = self._create_user(email=email, password=password,first_name=first_name,last_name=last_name,**extra_fields)
         user.is_staff= True
         user.is_superuser=True
+        user.is_verified=True
         user.save()
         return user
 
@@ -121,21 +123,21 @@ class User(EurekaModel,AbstractBaseUser,PermissionsMixin):
         'client',
         default = True,
         help_text=(
-            'Help easly distinguish users and perfom queries.'
+            'Help easly distinguish users and perfom queries. '
             'Clients are the main type of user.'
         )
     )
 
     is_verified = models.BooleanField(
         'verified',
-        default = True,
-        help_text = 'Set to true when the user have verified its email adress.'
+        default = False,
+        help_text = 'Set to true when the user has verified its email adress.'
     )
 
     is_active= models.BooleanField(
         'active',
         default = True,
-        help_text = 'Set to true when the user an active account.'
+        help_text = 'Set to true when the user has an active account.'
     )
 
     def __get_short_name(self):

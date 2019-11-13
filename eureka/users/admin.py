@@ -106,6 +106,9 @@ class UserAdmin(BaseUserAdmin):
     list_display = ('email','first_name','last_name','phone_number','is_active','is_client','last_login')
     list_filter = ('is_active','is_client','is_verified','is_superuser','is_staff','created','modified','last_login')
     readonly_fields=[
+        'is_verified',
+        'is_client',
+        'is_active',
         'created',
         'modified',
         'last_login'
