@@ -132,6 +132,12 @@ class User(EurekaModel,AbstractBaseUser,PermissionsMixin):
         help_text = 'Set to true when the user have verified its email adress.'
     )
 
+    is_active= models.BooleanField(
+        'active',
+        default = True,
+        help_text = 'Set to true when the user an active account.'
+    )
+
     def __get_short_name(self):
         """Return email."""
         return self.email

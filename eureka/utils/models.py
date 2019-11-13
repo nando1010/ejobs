@@ -50,10 +50,22 @@ class GenericModel(models.Model):
         help_text='Object name'
     )
 
-    modified = models.TextField(
+    description = models.TextField(
         'object description',
         blank = True,
         help_text='Object description'
+    )
+
+    created = models.DateTimeField(
+        'create at',
+        auto_now_add=True,
+        help_text='Date time on which the object was created'
+    )
+
+    modified = models.DateTimeField(
+        'modified at',
+        auto_now=True,
+        help_text='Date time on which the object was last modified'
     )
 
     class Meta:

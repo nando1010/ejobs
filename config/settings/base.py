@@ -44,9 +44,19 @@ DJANGO_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
+    'import_export',
+    'rest_framework',
+    'rest_framework.authtoken',
 ]
+
+# Django-import-export
+# It determines if the library will use database transactions on data import,
+# just to be on the safe side.
+IMPORT_EXPORT_USE_TRANSACTIONS = True
+
 LOCAL_APPS = [
     'eureka.users.apps.UsersAppConfig',
+    'eureka.jobs.apps.JobsAppConfig',
 ]
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
@@ -153,3 +163,11 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERYD_TASK_TIME_LIMIT = 5 * 60
 CELERYD_TASK_SOFT_TIME_LIMIT = 60
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES':(
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+
+    )
+}

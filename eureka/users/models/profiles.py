@@ -25,8 +25,8 @@ class Profile(EurekaModel):
     biography = models.TextField(max_length=500, blank = True)
 
     # Stats
-    jobs_applied = models.PositiveIntegerField()
-    jobs_created = models.PositiveIntegerField()
+    jobs_applied = models.PositiveIntegerField(default = 0)
+    jobs_created = models.PositiveIntegerField(default = 0)
 
     # Status
     active_search = models.BooleanField(default = True)
