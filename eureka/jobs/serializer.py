@@ -29,6 +29,8 @@ class JobSerializer(serializers.Serializer):
     pay_range_period=serializers.CharField()
     created = serializers.DateTimeField()
     modified =serializers.DateTimeField()
+    is_public=serializers.BooleanField()
+    show_creator = serializers.BooleanField()
 
 
 class CreateJobSerializer(serializers.Serializer):
@@ -48,6 +50,7 @@ class CreateJobSerializer(serializers.Serializer):
     min_salary = serializers.IntegerField(required = False)
     max_salary = serializers.IntegerField(required = False)
     is_public = serializers.BooleanField()
+    show_creator = serializers.BooleanField()
 
     """Variables estaticas"""
     MONTHLY = "monthly"

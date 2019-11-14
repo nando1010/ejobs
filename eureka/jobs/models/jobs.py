@@ -44,6 +44,11 @@ class Job(EurekaModel):
         default = True,
         help_text = 'Determina si la oferta laboral es publica'
     )
+    show_creator = models.BooleanField(
+        'Mostrar Reclutador',
+        default = True,
+        help_text = 'Mostrar al reclutador que crea la oferta laboral'
+    )
 
     """Informacion Opcional"""
     website_url = models.URLField(blank=True,null = True)
