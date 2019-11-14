@@ -39,12 +39,17 @@ class Job(EurekaModel):
     )
 
     """Estatus"""
+    is_verified=models.BooleanField(
+        'Convocatoria verificada',
+        default = True,
+        help_text = 'Determina si la oferta laboral ha sido verificada y corresponde a la empresa en mencion'
+    )
     is_public=models.BooleanField(
         'Convocatoria publica',
         default = True,
         help_text = 'Determina si la oferta laboral es publica'
     )
-    show_creator = models.BooleanField(
+    show_recruiter = models.BooleanField(
         'Mostrar Reclutador',
         default = True,
         help_text = 'Mostrar al reclutador que crea la oferta laboral'

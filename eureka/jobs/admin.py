@@ -35,7 +35,7 @@ class JobAdmin(ImportExportModelAdmin):
         'finished_at',
         'applications_made',
         'is_public',
-        'show_creator'
+        'show_recruiter'
     )
 
     search_fields = (
@@ -54,7 +54,7 @@ class JobAdmin(ImportExportModelAdmin):
     list_filter = (
         'is_active',
         'is_public',
-        'show_creator'
+        'show_recruiter'
     )
 
     readonly_fields=[

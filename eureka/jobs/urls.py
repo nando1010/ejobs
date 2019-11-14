@@ -1,12 +1,17 @@
 """Jobs URLs."""
 
 #Django
-from django.urls import path
+from django.urls import include,path
+
+#Django REST framework
+from rest_framework.routers import DefaultRouter
 
 #Views
-from eureka.jobs.views import list_jobs, create_job
+from .views import jobs as job_views
 
-urlpatterns = [
-    path('jobs/', list_jobs),
-    path('jobs/create/', create_job)
+router = DefaultRouter()
+router.register(r'jobs',job_views.JobViewSet,basename='job')
+
+urlpatterns=[
+    path('',include(router.urls))
 ]
