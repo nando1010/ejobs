@@ -38,6 +38,13 @@ class Job(EurekaModel):
         help_text = 'Postulaciones realizadas'
     )
 
+    """Estatus"""
+    is_public=models.BooleanField(
+        'Convocatoria publica',
+        default = True,
+        help_text = 'Determina si la oferta laboral es publica'
+    )
+
     """Informacion Opcional"""
     website_url = models.URLField(blank=True,null = True)
     benefits = models.TextField(blank = True, null = True)

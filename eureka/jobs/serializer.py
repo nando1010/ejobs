@@ -47,6 +47,7 @@ class CreateJobSerializer(serializers.Serializer):
     comment = serializers.CharField(required = False, allow_blank=True)
     min_salary = serializers.IntegerField(required = False)
     max_salary = serializers.IntegerField(required = False)
+    is_public = serializers.BooleanField()
 
     """Variables estaticas"""
     MONTHLY = "monthly"

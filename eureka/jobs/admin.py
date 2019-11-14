@@ -33,7 +33,8 @@ class JobAdmin(ImportExportModelAdmin):
         'schedule',
         'comment',
         'finished_at',
-        'applications_made'
+        'applications_made',
+        'is_public'
     )
 
     search_fields = (
@@ -51,6 +52,7 @@ class JobAdmin(ImportExportModelAdmin):
 
     list_filter = (
         'is_active',
+        'is_public'
     )
 
     readonly_fields=[
