@@ -44,15 +44,9 @@ DJANGO_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
-    'import_export',
     'rest_framework',
     'rest_framework.authtoken',
 ]
-
-# Django-import-export
-# It determines if the library will use database transactions on data import,
-# just to be on the safe side.
-IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 LOCAL_APPS = [
     'eureka.users.apps.UsersAppConfig',

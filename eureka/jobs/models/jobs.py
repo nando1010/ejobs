@@ -17,7 +17,7 @@ class Job(EurekaModel):
     """
 
     """Datos Obligatorios"""
-    company_ruc = models.CharField(max_length=50,blank=False)
+    company_ruc = models.CharField(max_length=11,blank=False)
     company_name = models.CharField(max_length=100,blank=False)
     title = models.CharField(max_length=100,blank=False)
     description = models.TextField(blank=False)
@@ -87,6 +87,8 @@ class Job(EurekaModel):
         """
         if not self.id:
             self.finished_at = datetime.now() + post_duration
+            super(Job,self).save(*args,**kwargs)
+        else:
             super(Job,self).save(*args,**kwargs)
 
     def __str__(self):

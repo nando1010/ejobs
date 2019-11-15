@@ -49,13 +49,13 @@ class UserSignUpSerializer(serializers.Serializer):
 
     # First name
     first_name = serializers.CharField(
-    min_length = 2,
-    max_length = 30
+        min_length = 2,
+        max_length = 30
     )
 
     last_name = serializers.CharField(
-    min_length = 2,
-    max_length=150
+        min_length = 2,
+        max_length=150
     )
 
     # Phone number

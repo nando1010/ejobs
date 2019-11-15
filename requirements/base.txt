@@ -18,7 +18,7 @@ pyjwt>=1.7.1
 
 # Import-Export
 tablib>= 0.14.0
-django-import-export>= 1.2.0
+
 
 # Passwords security
 argon2-cffi==18.3.0
