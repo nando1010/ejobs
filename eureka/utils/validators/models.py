@@ -190,7 +190,7 @@ def validate_fields(row,fila,new_values):
         dict_error['comment'] =  ValidationError('Error en comment')
 
     #Validate Job.min_salary
-    if isinstance(row[17],int) or row[17] == None:
+    if isinstance(int(row[17]),int) or row[17] == None:
         new_values['min_salary'] =row[17]
         # dict_error['min_salary'] = ''
     else:
@@ -198,7 +198,7 @@ def validate_fields(row,fila,new_values):
         dict_error['min_salary'] =  ValidationError('Error en min_salary')
 
     #Validate Job.max_salary
-    if isinstance(row[18],int) or row[18] == None:
+    if isinstance(int(row[18]),int) or row[18] == None:
         new_values['max_salary'] =row[18]
         # dict_error['max_salary'] = ''
     else:
@@ -206,7 +206,7 @@ def validate_fields(row,fila,new_values):
         dict_error['max_salary'] = ValidationError('Error en max_salary')
 
     #Validate Job.pay_range_period
-    if row[19]=='al mes' or row[19]=='al año' or row[19] == None:
+    if row[19]=='annual' or row[19]=='monthly' or row[19] == None:
         new_values['pay_range_period'] =row[19]
         # dict_error['pay_range_period'] = ''
     else:

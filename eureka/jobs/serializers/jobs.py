@@ -15,6 +15,7 @@ class JobModelSerializer(serializers.ModelSerializer):
 
         model = Job
         fields=(
+            'id',
             'company_ruc',
             'company_name',
             'title',
@@ -29,7 +30,7 @@ class JobModelSerializer(serializers.ModelSerializer):
             'show_recruiter',
             'website_url',
             'benefits',
-            'urgency'
+            'urgency',
             'schedule',
             'comment',
             'finished_at',

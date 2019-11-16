@@ -1,7 +1,9 @@
 """Users views."""
 
 # Django REST framework
-from rest_framework import status
+from rest_framework import status, viewsets
+from rest_framework.decorators import action, permission_classes
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -13,12 +15,17 @@ from eureka.users.serializers import (
     AccountVerificationSerializer
 )
 
+class UserViewSet(viewsets.GenericViewSet):
+    """User view set.
 
-class UserLoginAPIView(APIView):
-    """User login API View."""
+    # Handle sign up, login and account verification.
+    # """
 
-    def post(self,request, *args, **kwargs):
-        """Handle HTTP POST request."""
+    serializer_class = UserModelSerializer
+
+    @action(detail=False, methods=['post'])
+    def login(self,request):
+        """User log in."""
         serializer = UserLoginSerializer(data=request.data)
         serializer.is_valid(raise_exception = True)
         user, token = serializer.save()
@@ -29,23 +36,19 @@ class UserLoginAPIView(APIView):
         return Response(data, status=status.HTTP_201_CREATED )
 
 
-class UserSignUpAPIView(APIView):
-    """User sign up API View."""
-
-    def post(self,request, *args, **kwargs):
-        """Handle HTTP POST request."""
+    @action(detail=False,methods=['post'])
+    def signup(self,request):
+        """User sign up."""
+        permissions = [AllowAny]
         serializer = UserSignUpSerializer(data=request.data)
         serializer.is_valid(raise_exception = True)
         user = serializer.save()
         data = UserModelSerializer(user).data
         return Response(data, status=status.HTTP_201_CREATED )
 
-
-class AccountVerificationAPIView(APIView):
-    """Account Verificaction API View."""
-
-    def post(self,request, *args, **kwargs):
-        """Handle HTTP POST request."""
+    @action(detail=False,methods=['post'])
+    def verify(self,request):
+        """Account verification."""
         serializer = AccountVerificationSerializer(data=request.data)
         serializer.is_valid(raise_exception = True)
         serializer.save()
