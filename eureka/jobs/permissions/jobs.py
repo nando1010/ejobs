@@ -6,7 +6,7 @@ from rest_framework.permissions import BasePermission
 #Models
 from eureka.jobs.models import Job
 
-class IsJobAdmin(BasePermission):
+class IsJobOwner(BasePermission):
     """Allow access only to User admin."""
 
     def has_object_permission(self,request,view,obj):

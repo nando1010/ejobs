@@ -5,7 +5,7 @@ from rest_framework import mixins, viewsets
 
 #Permissions
 from rest_framework.permissions import IsAuthenticated
-from eureka.jobs.permissions.jobs import IsJobAdmin
+from eureka.jobs.permissions.jobs import IsJobOwner
 
 # Serializers
 from eureka.jobs.serializers import JobModelSerializer
@@ -21,6 +21,7 @@ class JobViewSet(mixins.CreateModelMixin,
     """Job view set."""
 
     serializer_class = JobModelSerializer
+    lookup_field ='id'
 
     def get_queryset(self):
         """Restrict jobs to public and active-only."""
@@ -33,7 +34,7 @@ class JobViewSet(mixins.CreateModelMixin,
         """Asign permissions based on action."""
         permissions = [IsAuthenticated]
         if self.action in ['update','partial_update']:
-            permissions.append(IsJobAdmin)
+            permissions.append(IsJobOwner)
         return[permission() for permission in permissions]
 
     def perform_create(self,serializer):

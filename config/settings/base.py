@@ -51,6 +51,7 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     'eureka.users.apps.UsersAppConfig',
     'eureka.jobs.apps.JobsAppConfig',
+    'eureka.companies.apps.CompaniesAppConfig',
 ]
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 

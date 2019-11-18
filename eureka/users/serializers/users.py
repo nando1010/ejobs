@@ -13,6 +13,9 @@ from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 from rest_framework.validators import UniqueValidator
 
+#Serializers
+from eureka.users.serializers.profiles import ProfileModelSerializer
+
 # Models
 from eureka.users.models import User,Profile
 
@@ -23,15 +26,19 @@ from datetime import timedelta
 class UserModelSerializer(serializers.ModelSerializer):
     """User model serializer."""
 
+    profile = ProfileModelSerializer(read_only = True)
+
     class Meta:
         """Meta class."""
 
         model = User
         fields = (
+            'id',
             'email',
             'first_name',
             'last_name',
             'phone_number',
+            'profile'
         )
 
 
@@ -88,7 +95,7 @@ class UserSignUpSerializer(serializers.Serializer):
     def create(self,data):
         """Handle user and profile creation."""
         data.pop('password_confirmation')
-        user = User.objects.create_user(**data,is_verified=False)
+        user = User.objects.create_user(**data,is_verified=False, is_client = True)
         profile = Profile.objects.create(user = user)
         self.send_confirmation_email(user)
         return user
