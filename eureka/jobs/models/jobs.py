@@ -6,6 +6,8 @@ from datetime import datetime, timedelta
 
 #Utilities
 from eureka.utils.models import EurekaModel
+
+#Models
 from eureka.users.models import User,Profile
 
 
@@ -18,12 +20,12 @@ class Job(EurekaModel):
     """
 
     """Foreign Keys """
-    user = models.ForeignKey(
-        User, on_delete=models.CASCADE
+    created_by_user = models.ForeignKey(
+        'users.User', on_delete=models.CASCADE
     )
 
-    profile = models.ForeignKey(
-        Profile, on_delete=models.CASCADE
+    created_by_profile = models.ForeignKey(
+        'users.Profile', on_delete=models.CASCADE
     )
 
 
@@ -43,8 +45,8 @@ class Job(EurekaModel):
         help_text='Acepta Postulaciones'
     )
 
-    applications_made = models.PositiveIntegerField(
-        'Aplications made',
+    applications_recived = models.PositiveIntegerField(
+        'Aplications recived',
         default = 0,
         help_text = 'Postulaciones realizadas'
     )

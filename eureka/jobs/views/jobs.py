@@ -8,6 +8,10 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from eureka.jobs.permissions.jobs import IsJobOwner
 
+#Filters
+from rest_framework.filters import SearchFilter, OrderingFilter
+from django_filters.rest_framework import DjangoFilterBackend
+
 # Serializers
 from eureka.jobs.serializers import JobModelSerializer, CreateJobSerializer
 from eureka.users.serializers import UserModelSerializer, ProfileModelSerializer
@@ -25,6 +29,13 @@ class JobViewSet(mixins.CreateModelMixin,
 
     serializer_class = JobModelSerializer
     lookup_field ='id'
+
+    #Filters
+    filter_backends = (SearchFilter,OrderingFilter,DjangoFilterBackend)
+    SearchFilter_fields = ('company_ruc','company_name','title','description')
+    OrderingFilter_fields = ('title','company_name')
+    ordering = ('created') 
+    filter_fields=('is_verified','is_active')
 
     def get_permissions(self):
         """Asign permissions based on action."""
@@ -60,8 +71,8 @@ class JobViewSet(mixins.CreateModelMixin,
     def create(self,request,*args,**kwargs):
         """Create job."""
         data=request.data
-        data['user']=self.request.user.id
-        data['profile']=self.request.user.profile.id
+        data['created_by_user']=self.request.user.id
+        data['created_by_profile']=self.request.user.profile.id
         serializer = CreateJobSerializer(data=data)
         serializer.is_valid(raise_exception = True)
         job = serializer.save()

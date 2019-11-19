@@ -31,16 +31,16 @@ class JobAdmin(admin.ModelAdmin, ExportCsvMixin):
         ('Datos de la vacante', {'fields': ('title','location','description','requeriments','contact_email','urgency')}),
         ('Remuneracion y beneficios', {'fields': ('benefits','schedule','min_salary','max_salary','pay_range_period',)}),
         ('Informacion adicional', {'fields': ('website_url','comment')}),
-        ('Estatus', {'fields': ('is_active','applications_made','is_verified','is_public','show_recruiter')}),
+        ('Estatus', {'fields': ('is_active','applications_recived','is_verified','is_public','show_recruiter')}),
         ('Historial', {'fields': ('created','modified')}),
     )
     search_fields = ('id','company_ruc','company_name','title','location','description','requeriments','finished_at','min_salary','max_salary')
     ordering = ('company_name','title')
     list_display = ('id','company_ruc','company_name','title','description','requeriments','contact_email',
-                    'location','is_active','website_url','benefits','urgency','schedule','comment','finished_at','applications_made','is_public','show_recruiter')
+                    'location','is_active','website_url','benefits','urgency','schedule','comment','finished_at','applications_recived','is_public','show_recruiter')
     list_filter = ('is_active','is_public','show_recruiter')
     readonly_fields=[
-        'applications_made',
+        'applications_recived',
         'created',
         'modified',
         'is_active',

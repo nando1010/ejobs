@@ -24,8 +24,8 @@ class JobModelSerializer(serializers.ModelSerializer):
 
         model = Job
         fields=(
-            'user',
-            'profile',
+            'created_by_user',
+            'created_by_profile',
             'id',
             'company_ruc',
             'company_name',
@@ -35,7 +35,7 @@ class JobModelSerializer(serializers.ModelSerializer):
             'contact_email',
             'location',
             'is_active',
-            'applications_made',
+            'applications_recived',
             'is_public',
             'is_verified',
             'show_recruiter',
@@ -51,7 +51,7 @@ class JobModelSerializer(serializers.ModelSerializer):
         )
         read_only_fields =(
             'is_active',
-            'applications_made',
+            'applications_recived',
             'is_verified',
             'is_public',
         )
@@ -71,7 +71,7 @@ class JobModelSerializer(serializers.ModelSerializer):
 class CreateJobSerializer(serializers.ModelSerializer):
     """Create job serializer."""
 
-    # user = UserModelSerializer(Read_only = True)
+    # user = UserModelSerializer(read_only = True)
 
     def validate(self, data):
         """
@@ -102,8 +102,8 @@ class CreateJobSerializer(serializers.ModelSerializer):
 
         model = Job
         fields=(
-            'user',
-            'profile',
+            'created_by_user',
+            'created_by_profile',
             'id',
             'company_ruc',
             'company_name',
@@ -113,7 +113,7 @@ class CreateJobSerializer(serializers.ModelSerializer):
             'contact_email',
             'location',
             'is_active',
-            'applications_made',
+            'applications_recived',
             'is_public',
             'is_verified',
             'show_recruiter',
@@ -129,6 +129,6 @@ class CreateJobSerializer(serializers.ModelSerializer):
         )
         read_only_fields =(
             'is_active',
-            'applications_made',
+            'applications_recived',
             'is_verified',
         )
