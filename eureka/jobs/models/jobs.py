@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 
 #Utilities
 from eureka.utils.models import EurekaModel
+from eureka.users.models import User,Profile
 
 
 class Job(EurekaModel):
@@ -15,6 +16,16 @@ class Job(EurekaModel):
     where users can apply. Everyone can apply and share job.
     Only recruiters can create jobs.
     """
+
+    """Foreign Keys """
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE
+    )
+
+    profile = models.ForeignKey(
+        Profile, on_delete=models.CASCADE
+    )
+
 
     """Datos Obligatorios"""
     company_ruc = models.CharField(max_length=11,blank=False)
@@ -77,19 +88,6 @@ class Job(EurekaModel):
     max_salary = models.PositiveIntegerField(blank=True,null=True)
     pay_range_period = models.CharField(max_length=10,choices=SALARY_RANGE_PERIOD,blank=True,null = True)
 
-    """Generar la fecha de fin de la publicacion"""
-    def save(self,*args,**kwargs):
-        # from datetime import datetime, timedelta
-        post_duration = timedelta(days=10)
-
-        """Se agregan 10 dias de duracion de la convocatoria.
-        Esta pendiente agregar la logica en caso no agregue nada el reclutador.
-        """
-        if not self.id:
-            self.finished_at = datetime.now() + post_duration
-            super(Job,self).save(*args,**kwargs)
-        else:
-            super(Job,self).save(*args,**kwargs)
 
     def __str__(self):
         """Return name."""

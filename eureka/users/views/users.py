@@ -66,6 +66,7 @@ class UserViewSet(mixins.RetrieveModelMixin,
         """User sign up."""
         permissions = [AllowAny]
         serializer = UserSignUpSerializer(data=request.data)
+
         serializer.is_valid(raise_exception = True)
         user = serializer.save()
         data = UserModelSerializer(user).data
@@ -99,7 +100,9 @@ class UserViewSet(mixins.RetrieveModelMixin,
     def retrieve(self,request,*args,**kwargs):
         """Add extra data to the response."""
         response = super(UserViewSet,self).retrieve(request, *args, **kwargs)
+
         jobs=Job.objects.filter(is_active=True)
+
         data = {
             'user':response.data,
             'jobs': JobModelSerializer(jobs,many = True).data

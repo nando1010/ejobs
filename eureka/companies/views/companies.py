@@ -25,8 +25,8 @@ class CompanyViewSet(mixins.CreateModelMixin,
     permission_classes = [IsAuthenticated,IsStaffUser]
 
     def get_queryset(self):
-        """Restrict list to public-only."""
-        queryset = Company.objects.all()
+        """ list to public-only."""
+        queryset = Company.objects.filter(is_active= True)
         return queryset
 
     def perform_create(self,serializer):

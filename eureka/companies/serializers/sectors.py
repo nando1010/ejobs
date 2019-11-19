@@ -9,6 +9,7 @@ from eureka.companies.models import Sector
 class SectorModelSerializer(serializers.ModelSerializer):
     """Sector model serializer."""
 
+
     class Meta:
         """Meta.class."""
 

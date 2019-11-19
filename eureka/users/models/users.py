@@ -140,6 +140,18 @@ class User(EurekaModel,AbstractBaseUser,PermissionsMixin):
         help_text = 'Set to true when the user has an active account.'
     )
 
+    jobs_created= models.PositiveIntegerField(
+        'Jobs created',
+        default = 0,
+        help_text = 'Shows the number of jobs created.'
+    )
+
+    jobs_applied= models.PositiveIntegerField(
+        'Jobs applied',
+        default = 0,
+        help_text = 'Shows the number of jobs applied.'
+    )
+
     def __get_short_name(self):
         """Return email."""
         return self.email

@@ -38,7 +38,9 @@ class UserModelSerializer(serializers.ModelSerializer):
             'first_name',
             'last_name',
             'phone_number',
-            'profile'
+            'profile',
+            'jobs_created',
+            'jobs_applied'
         )
 
 
