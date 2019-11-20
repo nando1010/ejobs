@@ -175,11 +175,11 @@ def validate_fields(row,fila,new_values):
 
     #Validate Job.schedule
     if isinstance(row[15],str) or row[15] == None:
-        new_values['schedule'] =row[15]
-        # dict_error['schedule'] = ''
+        new_values['work_schedule'] =row[15]
+        # dict_error['work_schedule'] = ''
     else:
         error_count=True
-        dict_error['schedule'] =  ValidationError('Error en schedule')
+        dict_error['work_schedule'] =  ValidationError('Error en work_schedule')
 
     #Validate Job.comment
     if isinstance(row[16],str) or row[16] == None:

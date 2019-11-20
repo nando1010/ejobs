@@ -66,7 +66,8 @@ class UserChangeForm(forms.ModelForm):
             'is_client',
             'is_verified',
             'is_staff',
-            'is_superuser'
+            'is_superuser',
+            'is_recruiter',
         )
 
     def clean_password(self):
@@ -89,7 +90,7 @@ class UserAdmin(BaseUserAdmin):
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
         ('Personal info', {'fields': ('first_name','last_name','phone_number')}),
-        ('Estatus', {'fields': ('is_active','is_client','is_verified')}),
+        ('Estatus', {'fields': ('is_active','is_client','is_verified','is_recruiter')}),
         ('Permissions', {'fields': ('is_staff','is_superuser')}),
         ('Estadisticas', {'fields': ('created','modified','last_login')}),
     )

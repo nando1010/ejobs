@@ -101,7 +101,10 @@ class UserViewSet(mixins.RetrieveModelMixin,
         """Add extra data to the response."""
         response = super(UserViewSet,self).retrieve(request, *args, **kwargs)
 
-        jobs=Job.objects.filter(is_active=True)
+        jobs=Job.objects.filter(
+            is_active=True,
+            user = request.user,
+        )
 
         data = {
             'user':response.data,

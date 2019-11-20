@@ -140,6 +140,12 @@ class User(EurekaModel,AbstractBaseUser,PermissionsMixin):
         help_text = 'Set to true when the user has an active account.'
     )
 
+    is_recruiter= models.BooleanField(
+        'recruiter',
+        default = False,
+        help_text = 'Set to true when the user is a recruiter and can publish jobs.'
+    )
+
     jobs_created= models.PositiveIntegerField(
         'Jobs created',
         default = 0,

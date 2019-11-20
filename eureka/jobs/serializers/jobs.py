@@ -17,6 +17,7 @@ from eureka.users.serializers import UserModelSerializer,ProfileModelSerializer
 #Utils
 from django.utils import timezone
 
+
 class JobModelSerializer(serializers.ModelSerializer):
     """Job model serializer."""
 
@@ -28,7 +29,10 @@ class JobModelSerializer(serializers.ModelSerializer):
             'created_by_profile',
             'id',
             'company_ruc',
-            'company_name',
+            'company_area',
+            'company_sub_area',
+            'company_role',
+            'contract_type',
             'title',
             'description',
             'requeriments',
@@ -42,7 +46,7 @@ class JobModelSerializer(serializers.ModelSerializer):
             'website_url',
             'benefits',
             'urgency',
-            'schedule',
+            'work_schedule',
             'comment',
             'finished_at',
             'min_salary',
@@ -55,17 +59,6 @@ class JobModelSerializer(serializers.ModelSerializer):
             'is_verified',
             'is_public',
         )
-
-    def update(self, instance, data):
-        """
-        Verifica que la vacante no haya caducado
-        En ningun caso, permite modificar la fecha de fin
-        """
-        now = timezone.now()
-        data.pop('finished_at')
-        if instance.finished_at <= now:
-            raise serializers.ValidationError('La vacante ya caducó.')
-        return super(JobModelSerializer, self).update(instance, data)
 
 
 class CreateJobSerializer(serializers.ModelSerializer):
@@ -80,7 +73,7 @@ class CreateJobSerializer(serializers.ModelSerializer):
         La duracion por default será 10 dias
         """
         min_date = timezone.now() + timedelta(days=1)
-        standard_duration = timezone.now() + timedelta(days=10)
+        standard_duration = timezone.now() + timedelta(days=21)
 
         if data.get('finished_at',None) == None:
             data['finished_at'] = standard_duration
@@ -94,41 +87,38 @@ class CreateJobSerializer(serializers.ModelSerializer):
 
     def create(self,data):
         """Create job and update_stats."""
-        job = Job.objects.create(**data)
+        #Getting data
+        user = self.context['request'].user
+        profile = user.profile
+
+        #User
+        user.jobs_created+=1
+        user.save()
+
+        job = Job.objects.create(**data,created_by_user=user,created_by_profile=profile)
         return job
 
     class Meta:
         """Meta class."""
 
         model = Job
-        fields=(
-            'created_by_user',
-            'created_by_profile',
-            'id',
-            'company_ruc',
-            'company_name',
-            'title',
-            'description',
-            'requeriments',
-            'contact_email',
-            'location',
-            'is_active',
-            'applications_recived',
-            'is_public',
-            'is_verified',
-            'show_recruiter',
-            'website_url',
-            'benefits',
-            'urgency',
-            'schedule',
-            'comment',
-            'finished_at',
-            'min_salary',
-            'max_salary',
-            'pay_range_period'
-        )
-        read_only_fields =(
-            'is_active',
-            'applications_recived',
-            'is_verified',
-        )
+        exclude = ('created_by_user','created_by_profile')
+
+class UpdateJobSerializer(serializers.ModelSerializer):
+    """Job model serializer."""
+
+    class Meta:
+        """Meta class."""
+
+        model = Job
+        exclude = ('created_by_user','created_by_profile','finished_at')
+
+    def update(self, instance, data):
+        """
+        Verifica que la vacante no haya caducado
+        En ningun caso, permite modificar la fecha de fin
+        """
+        now = timezone.now()
+        if instance.finished_at <= now:
+            raise serializers.ValidationError('La vacante ya caducó.')
+        return super(UpdateJobSerializer, self).update(instance, data)

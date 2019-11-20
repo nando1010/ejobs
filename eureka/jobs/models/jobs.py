@@ -9,6 +9,7 @@ from eureka.utils.models import EurekaModel
 
 #Models
 from eureka.users.models import User,Profile
+from eureka.companies.models import Company
 
 
 class Job(EurekaModel):
@@ -28,15 +29,27 @@ class Job(EurekaModel):
         'users.Profile', on_delete=models.CASCADE
     )
 
+    company_ruc = models.ForeignKey(
+        'companies.Company',
+        null= True,
+        to_field='ruc',
+        on_delete=models.SET_NULL
+    )
+
 
     """Datos Obligatorios"""
-    company_ruc = models.CharField(max_length=11,blank=False)
-    company_name = models.CharField(max_length=100,blank=False)
     title = models.CharField(max_length=100,blank=False)
     description = models.TextField(blank=False)
     requeriments = models.TextField(blank=False)
     contact_email = models.EmailField(blank=False)
     location = models.CharField(max_length=50,blank=False)
+
+    """Categorias de Busqueda"""
+    #Posteriormente seran susbstituidos por ForeignKey
+    company_area = models.CharField(max_length=100)
+    company_sub_area = models.CharField(max_length=100)
+    company_role = models.CharField(max_length=100)
+    contract_type = models.CharField(max_length=100)
 
     """Estadisticas"""
     is_active = models.BooleanField(
@@ -72,7 +85,7 @@ class Job(EurekaModel):
     website_url = models.URLField(blank=True,null = True)
     benefits = models.TextField(blank = True, null = True)
     urgency = models.TextField(blank = True, null = True)
-    schedule = models.TextField(blank = True, null = True)
+    work_schedule = models.TextField(blank = True, null = True)
     comment = models.TextField(blank = True, null = True)
     finished_at = models.DateTimeField(blank=True, null = True)
 
